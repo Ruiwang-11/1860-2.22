@@ -1,0 +1,78 @@
+function Sys.min 0
+  push argument 0
+  push argument 1
+  lt
+  if-goto ARG0_LESS
+  push argument 1
+  return
+label ARG0_LESS
+  push argument 0
+  return
+
+function Sys.max 0
+  push argument 0
+  push argument 1
+  gt
+  if-goto ARG0_MORE
+  push argument 1
+  return
+label ARG0_MORE
+  push argument 0
+  return
+
+function Sys.range 4
+  push argument 1
+  push constant 1
+  lt
+  if-goto NO_RANGE
+  push argument 1
+  push constant 1
+  eq
+  if-goto NO_RANGE
+  push argument 0
+  pop pointer 0
+  push this 0
+  pop local 0
+  push this 0
+  pop local 1
+  push constant 1
+  pop local 2
+label LOOP
+  push local 2
+  push argument 1
+  lt
+  if-goto ITER
+  goto DONE
+label ITER
+  push argument 0
+  push local 2
+  add
+  pop pointer 0
+  push this 0
+  pop local 3
+  push local 0
+  push local 3
+  call Sys.min 2
+  pop local 0
+  push local 1
+  push local 3
+  call Sys.max 2
+  pop local 1
+  push local 2
+  push constant 1
+  add
+  pop local 2
+  goto LOOP
+label DONE
+  push local 1
+  push local 0
+  sub
+  return
+label NO_RANGE
+  push constant 0
+  return
+
+function Sys.init 0
+    call Sys.range 2
+label WHILE
+    goto WHILE
