@@ -1,0 +1,45 @@
+push argument 0
+pop temp 0
+
+push constant 0
+pop temp 1
+
+push temp 0
+push constant 0
+lt
+if-goto MAKE_POS
+goto SKIP_NEG
+
+label MAKE_POS
+  push temp 0
+  neg
+  pop temp 0
+  goto CONT
+
+label SKIP_NEG
+
+label CONT
+
+push temp 0
+pop temp 2
+
+label LOOP
+  push temp 2
+  push constant 0
+  eq
+  if-goto DONE
+
+  push temp 1
+  push temp 0
+  add
+  pop temp 1
+
+  push temp 2
+  push constant 1
+  sub
+  pop temp 2
+
+  goto LOOP
+
+label DONE
+push temp 1
